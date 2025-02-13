@@ -1,4 +1,4 @@
-name: Deploy Workflow
+name: Deploy to Vercel
 
 on:
   push:
@@ -8,23 +8,23 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: "22"
+          node-version: '22'
 
       - run: npm install
 
       - name: Install Vercel CLI
-        run: npm install -g vercel # This will install the Vercel CLI globally
+        run: npm install -g vercel
 
       - run: npm run build
 
       - name: Deploy to Vercel
-        run: vercel --prod
+        run: vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
